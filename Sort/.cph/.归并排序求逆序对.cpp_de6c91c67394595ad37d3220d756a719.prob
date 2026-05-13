@@ -1,0 +1,1 @@
+{"name":"Local: 归并排序求逆序对","url":"e:\\VScode\\C++\\CPH\\算法模板\\排序\\归并排序求逆序对.cpp","tests":[{"id":1756625414195,"input":"5\n3 5 2 4 1\n","output":"7\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"e:\\VScode\\C++\\CPH\\算法模板\\排序\\归并排序求逆序对.cpp","group":"local","local":true}

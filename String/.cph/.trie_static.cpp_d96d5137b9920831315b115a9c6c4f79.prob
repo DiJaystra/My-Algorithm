@@ -1,0 +1,1 @@
+{"name":"Local: trie_static","url":"e:\\VScode\\C++\\CPH\\算法模板\\字符串\\trie_static.cpp","tests":[{"id":1763179593797,"input":"8\n1 abcd\n1 abac\n1 abca\n4 ab\n1 abca\n3 abca\n2 abca\n3 abca\n","output":"3\n2\n1\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"e:\\VScode\\C++\\CPH\\算法模板\\字符串\\trie_static.cpp","group":"local","local":true}

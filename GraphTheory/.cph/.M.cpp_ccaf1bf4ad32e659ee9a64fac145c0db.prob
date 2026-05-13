@@ -1,0 +1,1 @@
+{"name":"Local: M","url":"e:\\VScode\\C++\\CPH\\算法模板\\图论\\M.cpp","tests":[{"id":1761991276700,"input":"3 2 3\n1 1\n-1 3\n1\n2\n3\n","output":"Yes\nYes\nNo\n"},{"id":1761991289414,"input":"3 2 3\n1 1\n-1 0\n1\n2\n3\n","output":"No\nNo\nNo\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"e:\\VScode\\C++\\CPH\\算法模板\\图论\\M.cpp","group":"local","local":true}
