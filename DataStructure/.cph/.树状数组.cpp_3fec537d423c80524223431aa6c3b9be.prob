@@ -1,1 +1,0 @@
-{"name":"Local: 树状数组","url":"e:\\VScode\\C++\\CPH\\算法模板\\线段树\\树状数组.cpp","tests":[{"id":1756212782615,"input":"5\n5 -4 3 1 -2\n6\n1 2 4\n2 3 5\n1 3 5\n1 1 4\n2 2 5\n1 2 5\n","output":"0\n7\n10\n8\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"e:\\VScode\\C++\\CPH\\算法模板\\线段树\\树状数组.cpp","group":"local","local":true}
