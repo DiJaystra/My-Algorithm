@@ -109,12 +109,16 @@ int smaller(int x,int num) {
 int ranking(int num) {
     return smaller(head,num)+1; //排(小于它的所有数+1)名
 }
-//加入的所有数中，第x名是什么数
+//加入的所有数中，第rk名是什么数
 int index(int x,int rk) {
     if(x==0) return INT_MAX; //不合法情况
     if(siz[lch[x]]>=rk) return index(lch[x],rk);
     else if(siz[lch[x]]+same[x]<rk) return index(rch[x],rk-(siz[lch[x]]+same[x]));
     return key[x];
+}
+//查询第rk名是什么数的接口
+int index(int rk) {
+    return index(head,rk);
 }
 //查询数字num的前驱
 int pre(int num) {
