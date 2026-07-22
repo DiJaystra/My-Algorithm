@@ -5,6 +5,7 @@ using ll=long long;
 //判断主串和模式串是否匹配
 int KMP(string main,string pattern) {
     int n=main.size(),m=pattern.size();
+    if(n==0 && m==0) return 0;
     string merge=pattern+'#'+main;
     vector<int> pi(merge.size());
     for(int i=1;i<merge.size();i++) {
@@ -22,7 +23,7 @@ int KMP(string main,string pattern) {
     return -1; //不匹配返回-1
 }
 
-//返回主串前缀和模式串后缀的最长匹配长度
+//返回模式串前缀和主串后缀的最长匹配长度
 int KMPfail(string main,string pattern) {
     int n=main.size(),m=pattern.size();
     string merge=pattern+'#'+main;
