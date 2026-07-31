@@ -5,10 +5,10 @@ using db=double;
 
 const int MAXN=105; //未知数、方程 的最大数量
 //若数字绝对值小于ESP，认为是0，反之认为不是0
-const double EPS=1e-7;
+const db EPS=1e-7;
 
 int n,m; //n个方程，m个未知数
-double mat[MAXN][MAXN]; //增广矩阵
+db mat[MAXN][MAXN]; //增广矩阵
 
 //输出增广矩阵
 void show() {
@@ -41,7 +41,7 @@ void gauss() {
         swap(mat[i],mat[best]);
         //如果该列确实有非零系数，消其它列
         if(abs(mat[i][i])>=EPS) {
-            double tmp=mat[i][i];
+            db tmp=mat[i][i];
             //先把本行主元设成1
             for(int j=i;j<=all+1;j++) {
                 mat[i][j]/=tmp;
@@ -49,7 +49,7 @@ void gauss() {
             //把其他行在该列的值消成0
             for(int j=1;j<=all;j++) {
                 if(i!=j) {
-                    double rate=mat[j][i]/mat[i][i];
+                    db rate=mat[j][i]/mat[i][i];
                     for(int k=i;k<=all+1;k++) {
                         mat[j][k]-=mat[i][k]*rate;
                     }
