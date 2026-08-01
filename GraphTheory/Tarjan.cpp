@@ -4,16 +4,16 @@ using ll=long long;
 
 const int MAXN=1e5+5;
 int n,m; //节点数，边数
-vector<vector<int>> G(MAXN); //邻接表
+vector<vector<int>> G; //邻接表
 
 //节点的dfn编号，low值，以及SCC编号
-vector<int> dfn(MAXN),low(MAXN),belong(MAXN);
+int dfn[MAXN],low[MAXN],belong[MAXN];
 int cntd=0; //dfn编号分配
 
-vector<int> sccSiz(MAXN); //记录每一个SCC的大小
+int sccSiz[MAXN]; //记录每一个SCC的大小
 int sccCnt=0; //SCC编号分配
 
-vector<int> sta(MAXN); //栈
+int sta[MAXN]; //栈
 int top=0; //栈顶
 
 //Tarjan算法
@@ -44,10 +44,11 @@ void tarjan(int u) {
 
 signed main() {
     ios::sync_with_stdio(false);cin.tie(0);
+    G.resize(MAXN);
     cin>>n>>m;
     for(int i=0;i<m;i++) {
         int u,v;cin>>u>>v;
-        G[u].push_back(v);
+        G[u].push_back(v); //有向图
     }
     for(int i=1;i<=n;i++) if(dfn[i]==0) tarjan(i);
     return 0;
