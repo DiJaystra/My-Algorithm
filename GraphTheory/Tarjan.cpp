@@ -21,12 +21,14 @@ void tarjan(int u) {
     dfn[u]=low[u]=++cntd; //dfn序分配
     sta[++top]=u; //节点入栈
     for(int v:G[u]) {
-        if(dfn[v]==0) { //树边
+        //树边
+        if(dfn[v]==0) {
             tarjan(v);
             low[u]=min(low[u],low[v]);
         }
         else {
-            if(belong[v]==0) { //回边
+            //回边（指向当前Tarjan栈内节点的边）
+            if(belong[v]==0) {
                 low[u]=min(low[u],dfn[v]);
             }
         }
@@ -50,6 +52,10 @@ signed main() {
         int u,v;cin>>u>>v;
         G[u].push_back(v); //有向图
     }
-    for(int i=1;i<=n;i++) if(dfn[i]==0) tarjan(i);
+    //图不一定全连通，每个点都考察是否来到
+    //没来过就跑tarjan
+    for(int i=1;i<=n;i++) {
+        if(dfn[i]==0) tarjan(i);
+    }
     return 0;
 }
