@@ -8,7 +8,7 @@ const int MAXM=2e6+5; //最大无向边数
 int n,m; //点数，无向边数
 
 //点的头边，边的下一条边，边的终点
-int head[MAXN],nxt[MAXM*2],to[MAXM*2];
+int head[MAXN],nxt[MAXM<<1],to[MAXM<<1];
 int cntg=1; //有向边编号从2开始分配
 
 //节点的dfn编号，low值，以及E-BCC编号
