@@ -1,3 +1,6 @@
+//点双连通分量模板
+//这里定义V-BCC为不含割点的子图
+//特别地，代码认为孤立点是单独的一个V-BCC
 #include <bits/stdc++.h>
 using namespace std;
 using ll=long long;
