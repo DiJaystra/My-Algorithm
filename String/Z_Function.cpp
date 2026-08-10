@@ -2,27 +2,40 @@
 using namespace std;
 using ll=long long;
 
-vector<int> calc_z(const string &s) {
-    vector<int> z;
-    int n=s.size();
-    z.resize(n);
-    int l=0,r=0;
-    z[0]=n;
+const int MAXN=2e5+5; //字符串最长长度
+
+int n; //字符串长度
+string s; //字符串
+int z[MAXN]; //z函数数组
+
+//计算Z函数
+void getZ() {
+    z[0]=n; //原串跟原串完全匹配
+    int r=0; //匹配右边界
+    int c=0; //匹配中心
+    //计算z[1]...z[n-1]
     for(int i=1;i<n;i++) {
-        if(i<=r) z[i]=min(z[i-l],r-i+1);
-        while(i+z[i]<n && s[z[i]] == s[i+z[i]]) z[i]++;
-        if(i+z[i]-1 > r) l=i,r=i+z[i]-1;
+        //基础长度
+        int len = (r>i) ? min(z[i-c],r-i) : 0;
+        //扩展长度
+        while(i+len<n && s[i+len]==s[len]) {
+            len++;
+        }
+        z[i]=len;
+        //如果匹配右边界被推向更远
+        if(i+len>r) {
+            r=i+len;
+            c=i;
+        }
     }
-    return z;
 }
 
 signed main() {
-    int n;cin>>n;
-    string s;cin>>s;
-    vector<int> z=calc_z(s);
-    for(int i=0;i<n;i++) {
-        cout<<z[i]<<' ';
-    }
+    cin>>s;
+    n=s.size();
+
+    getZ();
+    for(int i=0;i<n;i++) cout<<z[i]<<' ';
     cout<<'\n';
     return 0;
 }
