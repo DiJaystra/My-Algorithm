@@ -17,11 +17,11 @@ ll fpow(ll base,ll exp,ll m) {
     return res;
 }
 
-vector<ll> fact(MAXN);
+ll fact[MAXN];
 //初始化一些数的阶乘
 void initFact() {
-    fact[0]=fact[1]=1;
-    for(ll i=2;i<MAXN;i++) fact[i]=fact[i-1]*i%MOD;
+    fact[0]=1;
+    for(ll i=1;i<MAXN;i++) fact[i]=fact[i-1]*i%MOD;
 }
 
 //n很大，m较小时
@@ -36,7 +36,7 @@ ll C1(ll n,ll m) {
     ll res=num1*inv%MOD;
     return res;
 }
-//n很小
+//n较小
 ll C2(ll n,ll m) {
     if(m>n || m<0) return 0;
     return fact[n]*fpow(fact[m],MOD-2,MOD)%MOD*fpow(fact[n-m],MOD-2,MOD)%MOD;

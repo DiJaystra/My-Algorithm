@@ -4,7 +4,7 @@ using ll=long long;
 
 const int MAXN=1e5+5;
 int n;
-vector<ll> m(MAXN),r(MAXN); //除数，余数
+ll m[MAXN],r[MAXN]; //除数，余数
 
 //位运算实现(a*b)%mod
 ll multiple(ll a,ll b,ll mod) {

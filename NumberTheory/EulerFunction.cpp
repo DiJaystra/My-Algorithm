@@ -18,7 +18,8 @@ ll euler_phi(ll n) {
 }
 
 const ll MAXN=1e7;
-vector<ll> primes,phi(MAXN);
+vector<ll> primes;
+ll phi[MAXN];
 //线性筛法批量求欧拉函数的值，同时求质数
 void get_phi() {
     vector<bool> isPrime(MAXN+1,true);

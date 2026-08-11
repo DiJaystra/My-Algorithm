@@ -3,7 +3,7 @@ using namespace std;
 using ll=long long;
 
 int n;
-vector<ll> m(15),r(15); //除数，余数
+ll m[15],r[15]; //除数，余数
 
 //位运算实现(a*b)%mod
 ll multiple(ll a,ll b,ll mod) {

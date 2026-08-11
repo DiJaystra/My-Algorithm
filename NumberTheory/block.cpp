@@ -1,3 +1,5 @@
+//整除分块
+//计算n/1+n/2+n/3+...+n/n （都是下取整）
 #include <bits/stdc++.h>
 using namespace std;
 using ll=long long;
