@@ -7,13 +7,13 @@ const int MAXN=1e5+5; //数组最长大小
 //总节点数较玄学，这里是(n*4+m*(4*logn))
 const int MAXT=MAXN*80;
 int n,m,t=0; //数组长度，查询数量，时间戳
-vector<int> arr(MAXN); //原数组
+int arr[MAXN]; //原数组
 
-vector<int> root(MAXN); //版本v的根节点
+int root[MAXN]; //版本v的根节点
 //节点i的左右孩子
-vector<int> lch(MAXT),rch(MAXT);
+int lch[MAXT],rch[MAXT];
 //累加和信息,懒标记累加和信息
-vector<ll> sum(MAXT),add(MAXT);
+ll sum[MAXT],add[MAXT];
 int cnt=0;
 //克隆一个节点
 int clone(int id) {

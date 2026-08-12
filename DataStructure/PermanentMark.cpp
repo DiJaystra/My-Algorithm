@@ -6,14 +6,14 @@ using ll=long long;
 
 const int MAXN=1e5+5;
 const int MAXT=MAXN*4;
-vector<ll> arr(MAXN);
+ll arr[MAXN];
 
 //不是真实的累加和，而是之前的任务中
 //不考虑上方范围拦截的任务，只考虑来到当前及往下走的任务
 //累加和变成了什么
-vector<ll> sum(MAXT);
+ll sum[MAXT];
 //不是懒处理标记，只是标记被拦截的任务
-vector<ll> add(MAXT);
+ll add[MAXT];
 //建树（原模板相同）
 void build(int id,int l,int r) {
     if(l==r) sum[id]=arr[l];

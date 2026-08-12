@@ -2,13 +2,13 @@
 using namespace std;
 using ll=long long;
 
-int MAXN=2e5+5;
+const int MAXN=2e5+5;
 int n;
-vector<ll> arr(MAXN); //原数组
-vector<ll> sorted1(MAXN); //排序数组1
-vector<ll> sorted2(MAXN); //排序数组2
+ll arr[MAXN]; //原数组
+ll sorted1[MAXN]; //排序数组1
+ll sorted2[MAXN]; //排序数组2
 
-vector<ll> heap(MAXN); //堆
+ll heap[MAXN]; //堆
 int heap_size=0; //堆的有效大小
 //向上调整堆
 void heapUp(int idx) {

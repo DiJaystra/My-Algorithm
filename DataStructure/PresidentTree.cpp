@@ -7,17 +7,17 @@ using ll=long long;
 const int MAXN=2e5+5; //数组长度最大值
 const int MAXT=MAXN*24; //节点总数最大值
 int n,m,s; //数组长度，查询数量，数组中不同数的数量
-vector<int> arr(MAXN); //原数组
-vector<int> sorted(MAXN); //离散化有序数组
+int arr[MAXN]; //原数组
+int sorted[MAXN]; //离散化有序数组
 //一个数是第几小
 int kth(int x) {
-    return lower_bound(sorted.begin()+1,sorted.begin()+s+1,x)-sorted.begin();
+    return lower_bound(sorted+1,sorted+s+1,x)-sorted;
 }
 //版本v的根节点
-vector<int> root(MAXN);
+int root[MAXN];
 //节点i的左右孩子，以及子树大小
-vector<int> lch(MAXT),rch(MAXT);
-vector<int> siz(MAXT);
+int lch[MAXT],rch[MAXT];
+int siz[MAXT];
 int cnt=0; //节点编号分配
 
 //建出0号树（什么都没有）
@@ -64,7 +64,7 @@ void prepare() {
     cnt=0;
     //离散化
     for(int i=1;i<=n;i++) sorted[i]=arr[i];
-    sort(sorted.begin()+1,sorted.begin()+n+1);
+    sort(sorted+1,sorted+n+1);
     s=1;
     for(int i=2;i<=n;i++) {
         if(sorted[s]!=sorted[i]) sorted[++s]=sorted[i];
