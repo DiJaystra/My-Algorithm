@@ -2,30 +2,34 @@
 using namespace std;
 using ll=long long;
 
-int MAXN=2e5+5; //最大顶点数、边数
+const int MAXN=2e5+5; //最大顶点数
+const int MAXM=2e5+5; //最大边数
+
 int n,m; //顶点数，边数
 
-vector<int> parent(MAXN); //并查集
+int parent[MAXN]; //并查集
 //查找节点的根
-int Find(int x) {
-    return parent[x]==x ? x : parent[x]=Find(parent[x]);
+int find(int x) {
+    if(parent[x]==x) return x;
+    int root=find(parent[x]);
+    return parent[x]=root;
 }
 //合并两节点的连通分量
-void Union(int x,int y) {
-    int rootx=Find(x),rooty=Find(y);
-    if(rootx!=rooty) {
-        parent[rootx]=rooty;
+void merge(int x,int y) {
+    x=find(x),y=find(y);
+    if(x!=y) {
+        parent[x]=y;
     }
 }
 
 //边结构体
-struct E {
+struct edge {
     int u,v;
     ll w;
 };
 
-vector<E> edges(MAXN); //存储边
-vector<E> selected(MAXN); //最小生成树所选边
+edge E[MAXM]; //存储边
+edge selected[MAXM]; //最小生成树所选边
 
 void kruskal() {
     //连通分量初始化
@@ -33,17 +37,16 @@ void kruskal() {
         parent[i]=i;
     }
     //边按权值升序排序
-    sort(edges.begin()+1,edges.begin()+m+1,
-    [](E x,E y){
+    sort(E+1,E+m+1,[](edge x,edge y){
         return x.w<y.w;
     });
     int cnt=0; //已选边数
     for(int i=1;i<=m;i++) {
         if(cnt>=n-1) break;
-        auto [u,v,w]=edges[i];
-        if(Find(u)!=Find(v)) {
-            selected[++cnt]=edges[i];
-            Union(u,v);
+        auto [u,v,w]=E[i];
+        if(find(u)!=find(v)) {
+            selected[++cnt]=E[i];
+            merge(u,v);
         }
     }
 }
@@ -54,7 +57,7 @@ signed main() {
     for(int i=1;i<=m;i++) {
         int u,v;cin>>u>>v;
         ll w;cin>>w;
-        edges[i]={u,v,w};
+        E[i]={u,v,w};
     }
     kruskal();
     return 0;

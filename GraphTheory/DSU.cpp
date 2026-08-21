@@ -3,6 +3,7 @@ using namespace std;
 using ll=long long;
 
 const int MAXN=2e5+5;
+
 int n; //节点数量
 
 int parent[MAXN]; //并查集

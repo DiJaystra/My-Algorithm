@@ -33,6 +33,6 @@ signed main() {
         dist[v][u]=min(dist[v][u],w);
     }
 
-    floyd(); //1-index 传n+1
+    floyd();
     return 0;
 }
