@@ -1,34 +1,31 @@
 #include <bits/stdc++.h>
 using namespace std;
 using ll=long long;
-using ull=unsigned long long;
-using ld=long double;
-using lll=__int128;
 
+const int MAXN=2e5+5; //最大点数
 const int LOG=20; //2^20>≈1e6
 
-int n;
-vector<vector<pair<int,int>>> graph;
-vector<int> dep; //节点深度
-vector<vector<int>> up; //跳跃父亲数组
+int n; //点数
+vector<vector<int>> graph; //邻接表
+int dep[MAXN]; //节点深度
+int jump[MAXN][LOG]; //跳跃父亲数组
 
 //dfs求节点在树上的深度
-void dfs(int u,int deep,vector<bool> &visited) {
-    visited[u]=true;
-    dep[u]=deep;
-    for(auto [v,id] : graph[u]) {
-        if(!visited[v]) {
-            up[v][0]=u; //不需要倍增数组则去掉该行
-            dfs(v,deep+1,visited);
+void dfs(int u,int f) {
+    dep[u]=dep[f]+1;
+    jump[u][0]=f;
+    for(int v : graph[u]) {
+        if(v!=f) {
+            dfs(v,u);
         }
     }
 }
 
 //初处理跳跃父亲数组
-void intialUp() {
-    for(int i=1;i<LOG;i++) {
-        for(int u=1;u<=n;u++) {
-            up[u][i]=up[up[u][i-1]][i-1];
+void intialJump() {
+    for(int j=1;j<LOG;j++) {
+        for(int i=1;i<=n;i++) {
+            jump[i][j]=jump[jump[i][j-1]][j-1];
         }
     }
 }
@@ -37,8 +34,8 @@ void intialUp() {
 void toSame(int &x,int y) {
     int diff=dep[x]-dep[y];
     for(int i=LOG-1;i>=0;i--) {
-        if(diff & (1<<i)) {
-            x=up[x][i]; //x传参需要带引用的原因
+        if((diff>>i)&1) {
+            x=jump[x][i]; //x传参需要带引用的原因
         }
     }
 }
@@ -51,37 +48,32 @@ int lca(int x,int y) {
     if(x==y) return x;
 
     for(int i=LOG-1;i>=0;i--) {
-        if(up[x][i] != up[y][i]) {
-            x=up[x][i];
-            y=up[y][i];
+        if(jump[x][i] != jump[y][i]) {
+            x=jump[x][i];
+            y=jump[y][i];
         }
     }
-    return up[x][0];
+    return jump[x][0];
 }
 
 signed main() {
     ios::sync_with_stdio(false);cin.tie(0);
-    
     cin>>n;
-    //graph.resize(n+1); 单测试点多例子的初始化用下面这种
-    graph=decltype(graph)(n+1);
-    for(int i=0;i<n-1;i++) {
+    graph.resize(MAXN);
+    for(int i=1;i<=n-1;i++) {
         int u,v;cin>>u>>v;
-        graph[u].push_back({v,i});
-        graph[v].push_back({u,i});
+        graph[u].push_back(v);
+        graph[v].push_back(u);
     }
 
     //初始化工作：求节点深度->求倍增数组
+    dfs(1,0);
+    intialJump();
 
-    //dep.resize(n+1);
-    dep=decltype(dep)(n+1);
-    //up.resize(n+1,vector<int> (20,0));
-    up=decltype(up)(n+1,vector<int> (20,0));
-    vector<bool> visited(n+1,false);
-    dfs(1,1,visited);
-    intialUp();
-
-    lca(8,3); //调用方法
-    
+    int q;cin>>q;
+    while(q--) {
+        int x,y;cin>>x>>y;
+        cout<<lca(x,y)<<'\n';
+    }
     return 0;
 }
