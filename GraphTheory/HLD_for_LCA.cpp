@@ -2,10 +2,27 @@
 using namespace std;
 using ll=long long;
 
-int n,m,root;
-vector<vector<int>> G;
-vector<int> fa,dep,siz,son,top,dfn,seg;
+const int MAXN=2e5+5; //最大节点数量
+
+int n,q,root; //节点数，查询数，指定根节点
+vector<vector<int>> G; //邻接表
+int fa[MAXN]; //节点父亲
+int dep[MAXN]; //节点深度
+int siz[MAXN]; //子树大小
+int son[MAXN]; //节点的重儿子编号
+int top[MAXN]; //节点所在重链的头节点编号
+int dfn[MAXN]; //节点的dfn序
+int seg[MAXN]; //dfn序号为i的节点
 int cntd=0; //dfn序号分配
+
+//多例子初始化
+void prepare() {
+    for(int i=1;i<=n;i++) {
+        G[i].clear();
+        son[i]=0;
+    }
+    cntd=0;
+}
 
 //设置father,depth,size,heavy_son
 void dfs1(int u,int f) {
@@ -20,7 +37,7 @@ void dfs1(int u,int f) {
     for(int v : G[u]) {
         if(v!=f) {
             siz[u]+=siz[v];
-            if(son[u]==-1 || siz[son[u]] < siz[v]) son[u]=v;
+            if(son[u]==0 || siz[son[u]] < siz[v]) son[u]=v;
         }
     }
 }
@@ -29,7 +46,7 @@ void dfs2(int u,int t) {
     top[u]=t;
     dfn[u]=++cntd;
     seg[cntd]=u;
-    if(son[u]==-1) return;
+    if(son[u]==0) return;
     dfs2(son[u],t); //先遍历重儿子
     for(int v : G[u]) {
         if(v!=fa[u] && v!=son[u]) {
@@ -42,7 +59,8 @@ int lca(int a,int b) {
     while(top[a]!=top[b]) {
         if(dep[top[a]] <= dep[top[b]]) {
             b=fa[top[b]];
-        } else {
+        }
+        else {
             a=fa[top[a]];
         }
     }
@@ -51,17 +69,9 @@ int lca(int a,int b) {
 
 signed main() {
     ios::sync_with_stdio(false);cin.tie(0);
-
-    cin>>n>>m>>root;
-    G.assign(n+1,vector<int>(0));
-    fa.assign(n+1,-1);
-    dep.assign(n+1,0);
-    siz.assign(n+1,-1);
-    son.assign(n+1,-1);
-    top.assign(n+1,-1);
-    dfn.assign(n+1,-1);
-    seg.assign(n+1,-1);
-
+    G.resize(MAXN);
+    cin>>n>>q>>root;
+    prepare();
     for(int i=0;i<n-1;i++) {
         int u,v;cin>>u>>v;
         G[u].push_back(v);
@@ -71,10 +81,9 @@ signed main() {
     dfs1(root,0);
     dfs2(root,root);
 
-    while(m--) {
-        int a,b;cin>>a>>b;
-        cout<<lca(a,b)<<'\n';
+    while(q--) {
+        int x,y;cin>>x>>y;
+        cout<<lca(x,y)<<'\n';
     }
-
     return 0;
 }
