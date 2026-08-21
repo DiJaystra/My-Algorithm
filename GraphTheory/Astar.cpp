@@ -12,11 +12,14 @@ using ld=long double;
 //估计函数的选择是不能乱选的，其估计数值应<=当前点到终点的真实最短距离，否则引力过强
 //对比dijkstra，其不估计当前点到终点距离，可认为估计了0，无引力
 
+const int MAXN=2e5+5;
+
+pair<int,int> dxy[4]={{1,0},{-1,0},{0,1},{0,-1}};
+
 int n,m;
 int startx,starty,targetx,targety;
 vector<string> G;
-
-pair<int,int> dxy[4]={{1,0},{-1,0},{0,1},{0,-1}};
+vector<vector<int>> dist;
 
 //曼哈顿距离
 int f1(int x,int y) {
@@ -26,57 +29,48 @@ int f1(int x,int y) {
 int f2(int x,int y) {
     return max(abs(targetx-x),abs(targety-y));
 }
-//几何距离（欧拉距离）
+//几何距离（欧氏距离）
 ld f3(int x,int y) {
     return sqrt(pow(targetx-x,2)+pow(targety-y,2));
 }
 
-int Astar() {
+void Astar() {
+    dist.assign(n,vector<int>(m,INT_MAX));
     if(G[startx][starty]=='#' || G[targetx][targety]=='#') {
-        return -1;
+        return;
     }
 
-    vector<vector<int>> dist(n,vector<int>(m,INT_MAX));
     dist[startx][starty]=0;
-    
     using tp=tuple<int,int,int>; //A星距离(起点到当前点距离+预估距离)，点坐标
-    priority_queue<tp,vector<tp>,greater<>> pq;
+    priority_queue<tp,vector<tp>,greater<tp>> pq;
     //这里使用曼哈顿距离来估计
     pq.push({f1(startx,starty),startx,starty});
     while(!pq.empty()) {
-        auto [now,ux,uy]=pq.top();pq.pop(); //注意这里now是用不上的，仅用于堆比较
-        if(dist[ux][uy]==INT_MAX) {
-            continue;
-        }
-        if(ux==targetx && uy==targety) {
-            return dist[ux][uy];
-        }
+        auto [now,ux,uy]=pq.top();pq.pop();
+        //剪枝优化
+        if(now>dist[ux][uy]+f1(ux,uy)) continue;
+        if(ux==targetx && uy==targety) return;
         for(auto [dx,dy]:dxy) {
             int vx=ux+dx;
             int vy=uy+dy;
             if(vx<0 || vx>=n || vy<0 || vy>=m) continue;
-            if(G[vx][vy]=='.' && dist[ux][uy]+1 < dist[vx][vy]) {
+            if(G[vx][vy]!='#' && dist[ux][uy]+1 < dist[vx][vy]) {
                 dist[vx][vy]=dist[ux][uy]+1;
                 pq.push({dist[vx][vy]+f1(vx,vy),vx,vy});
             }
         }
     }
-
-    return -1;
 }
 
 signed main() {
     ios::sync_with_stdio(false);cin.tie(0);
-
     cin>>n>>m;
     cin>>startx>>starty>>targetx>>targety;
     startx--,starty--,targetx--,targety--;
     G.resize(n);
-    for(int i=0;i<n;i++) {
-        cin>>G[i];
-    }
-
-    cout<<Astar()<<'\n';
-
+    for(int i=0;i<n;i++) cin>>G[i];
+    Astar();
+    if(dist[targetx][targety]==INT_MAX) cout<<"-1\n";
+    else cout<<dist[targetx][targety]<<'\n';
     return 0;
 }
