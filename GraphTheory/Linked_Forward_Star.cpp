@@ -12,8 +12,9 @@ int n,m; //点数，边数
 int head[MAXN],nxt[MAXM*2],to[MAXM*2];
 //边的权重
 ll weight[MAXM*2];
-int cntg=1;
+int cntg=1; //边的编号从2开始
 
+//链式前向星加边操作
 void addEdge(int u,int v,ll w) {
     nxt[++cntg]=head[u];
     to[cntg]=v;

@@ -2,19 +2,32 @@
 using namespace std;
 using ll=long long;
 
+const int MAXN=2e5+5; //最大点数
+
+int n,m; //点数、边数
+vector<vector<int>> G; //邻接表
+int indeg[MAXN]; //顶点入度
+
+int topo[MAXN]; //拓扑序
+int cntt=0; //拓扑序编号分配
+
+//判断有向图是否有环
 void solve() {
-    int n,m;cin>>n>>m;
-    vector<vector<int>> graph(n+1);
-    vector<int> indeg(n+1);
-    for(int i=0;i<m;i++) {
+    cin>>n>>m;
+    for(int i=1;i<=n;i++) {
+        G[i].clear();
+        indeg[i]=0;
+    }
+    for(int i=1;i<=m;i++) {
         int u,v;cin>>u>>v;
-        graph[u].push_back(v);
+        G[u].push_back(v); //有向图
         indeg[v]++;
     }
 
+    //拓扑排序
     queue<int> q;
-    vector<int> topo;
     for(int i=1;i<=n;i++) {
+        //入度为0节点入队
         if(indeg[i]==0) {
             q.push(i);
         }
@@ -22,28 +35,23 @@ void solve() {
 
     while(!q.empty()) {
         int u=q.front();q.pop();
-        topo.push_back(u);
-        for(int v:graph[u]) {
-            indeg[v]--;
-            if(indeg[v]==0) {
+        topo[++cntt]=u;
+        for(int v:G[u]) {
+            //入度为0节点入队
+            if(--indeg[v]==0) {
                 q.push(v);
             }
         }
     }
 
-    if(topo.size()==n) {
-        cout<<"YES\n";
-    }
-    else {
-        cout<<"NO\n";
-    }
+    if(cntt==n) cout<<"YES\n";
+    else cout<<"NO\n";
 }
 
 signed main() {
     ios::sync_with_stdio(false);cin.tie(0);
-
-    int t;cin>>t;
-    while(t--) solve();
-
+    G.resize(MAXN);
+    int T;cin>>T;
+    while(T--) solve();
     return 0;
 }
