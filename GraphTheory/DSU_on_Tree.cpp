@@ -3,14 +3,25 @@ using namespace std;
 using ll=long long;
 
 //例题：以1为根节点，求所有子树的不同颜色种类数（每个节点都有一个颜色）
+const int MAXN=2e5+5; //最大节点数量
 
 int n; //节点个数
-vector<int> color; //每个节点的颜色
 vector<vector<int>> G; //邻接表
-vector<int> ans; //预处理的答案
-vector<int> fa,siz,son; //树链剖分参数
-vector<int> cntColor; //记录每种颜色出现次数
+int color[MAXN]; //每个节点的颜色（假设范围是1到n）
+int ans[MAXN]; //要计算的答案
+int fa[MAXN],siz[MAXN],son[MAXN]; //树链剖分参数
+int cntColor[MAXN]; //记录每种颜色出现次数
 int diff=0; //当前不同颜色的种类数
+
+//多例子初始化
+void prepare() {
+    for(int i=1;i<=n;i++) {
+        G[i].clear();
+        son[i]=0;
+        cntColor[i]=0;
+    }
+    diff=0;
+}
 
 //设置father,size,heavy_son
 void dfs1(int u,int f) { //当前节点，当前节点的父亲节点
@@ -22,7 +33,7 @@ void dfs1(int u,int f) { //当前节点，当前节点的父亲节点
     for(int v : G[u]) {
         if(v!=f) {
             siz[u]+=siz[v];
-            if(son[u]==-1 || siz[son[u]] < siz[v]) son[u]=v; //更新重儿子
+            if(son[u]==0 || siz[son[u]] < siz[v]) son[u]=v; //更新重儿子
         }
     }
 }
@@ -46,7 +57,7 @@ void dfs2(int u,int keep) { //u当前节点，keep当前节点的答案贡献是
     for(int v:G[u]) {
         if(v!=fa[u] && v!=son[u]) dfs2(v,0);
     }
-    if(son[u]!=-1) dfs2(son[u],1); //计算重儿子的答案
+    if(son[u]!=0) dfs2(son[u],1); //计算重儿子的答案
     if(++cntColor[color[u]]==1) diff++; //节点u自己贡献答案
     //所有轻儿子的答案重新贡献
     for(int v:G[u]) {
@@ -58,10 +69,9 @@ void dfs2(int u,int keep) { //u当前节点，keep当前节点的答案贡献是
 
 signed main() {
     ios::sync_with_stdio(false);cin.tie(0);
+    G.resize(MAXN);
     cin>>n;
-    G.resize(n+1);
-    color.resize(n+1);
-    ans.resize(n+1);
+    prepare();
     for(int i=0;i<n-1;i++) {
         int u,v;cin>>u>>v;
         G[u].push_back(v);
@@ -69,10 +79,6 @@ signed main() {
     }
     for(int i=1;i<=n;i++) cin>>color[i];
 
-    fa.assign(n+1,-1);
-    siz.assign(n+1,-1);
-    son.assign(n+1,-1);
-    cntColor.resize(n+1);
     dfs1(1,0);
     dfs2(1,0);
 

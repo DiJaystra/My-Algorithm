@@ -15,6 +15,7 @@ int dfn[MAXN]; //节点的dfn序
 int seg[MAXN]; //dfn序号为i的节点
 int cntd=0; //dfn序号分配
 
+//多例子初始化
 void prepare() {
     for(int i=1;i<=n;i++) {
         G[i].clear();
