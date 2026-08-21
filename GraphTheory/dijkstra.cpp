@@ -31,7 +31,7 @@ signed main() {
     graph.resize(MAXN);
     fill(dist,dist+MAXN,LLONG_MAX);
     for(int i=1;i<=m;i++) {
-        int u,v,w;cin>>u>>v>>w;
+        int u,v;ll w;cin>>u>>v>>w;
         graph[u].push_back({v,w}); //注意这里是有向图
     }
 
