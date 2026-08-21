@@ -6,8 +6,6 @@ const int MAXN=2e5+5;
 const int MAXM=2e5+5;
 
 int n,m; //点数、边数
-//邻接表
-vector<vector<pair<int,ll>>> graph;
 //距离
 ll dist[MAXN];
 
@@ -52,12 +50,10 @@ bool bellman(int s) {
 signed main() {
     ios::sync_with_stdio(false);cin.tie(0);
     cin>>n>>m;
-    graph.resize(MAXN);
     fill(dist,dist+MAXN,LLONG_MAX);
     for(int i=1;i<=m;i++) {
         int u,v;ll w;
         cin>>u>>v>>w;
-        graph[u].push_back({v,w}); //有向图
         E[i]={u,v,w};
     }
 
