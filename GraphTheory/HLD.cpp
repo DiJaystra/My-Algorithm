@@ -2,10 +2,26 @@
 using namespace std;
 using ll=long long;
 
+const int MAXN=2e5+5; //最大节点数量
+
 int n,root; //节点个数，指定根节点
 vector<vector<int>> G; //邻接表
-vector<int> fa,dep,siz,son,top,dfn,seg;
+int fa[MAXN]; //节点父亲
+int dep[MAXN]; //节点深度
+int siz[MAXN]; //子树大小
+int son[MAXN]; //节点的重儿子编号
+int top[MAXN]; //节点所在重链的头节点编号
+int dfn[MAXN]; //节点的dfn序
+int seg[MAXN]; //dfn序号为i的节点
 int cntd=0; //dfn序号分配
+
+void prepare() {
+    for(int i=1;i<=n;i++) {
+        G[i].clear();
+        son[i]=0;
+    }
+    cntd=0;
+}
 
 //设置father,depth,size,heavy_son
 void dfs1(int u,int f) { //当前节点，当前节点的父亲节点
@@ -18,7 +34,7 @@ void dfs1(int u,int f) { //当前节点，当前节点的父亲节点
     for(int v : G[u]) {
         if(v!=f) {
             siz[u]+=siz[v];
-            if(son[u]==-1 || siz[son[u]] < siz[v]) son[u]=v; //更新重儿子
+            if(son[u]==0 || siz[son[u]] < siz[v]) son[u]=v; //更新重儿子
         }
     }
 }
@@ -27,7 +43,7 @@ void dfs2(int u,int t) { //当前节点，当前节点所在重链的头结点
     top[u]=t;
     dfn[u]=++cntd;
     seg[cntd]=u;
-    if(son[u]==-1) return;
+    if(son[u]==0) return;
     dfs2(son[u],t); //先遍历重儿子
     for(int v : G[u]) {
         if(v!=fa[u] && v!=son[u]) { //遍历轻儿子
@@ -38,17 +54,9 @@ void dfs2(int u,int t) { //当前节点，当前节点所在重链的头结点
 
 signed main() {
     ios::sync_with_stdio(false);cin.tie(0);
-
+    G.resize(MAXN);
     cin>>n>>root;
-    G.assign(n+1,vector<int>(0));
-    fa.assign(n+1,-1);
-    dep.assign(n+1,0); //默认原始节点0在深度0处
-    siz.assign(n+1,-1);
-    son.assign(n+1,-1);
-    top.assign(n+1,-1);
-    dfn.assign(n+1,-1);
-    seg.assign(n+1,-1);
-
+    prepare();
     for(int i=0;i<n-1;i++) {
         int u,v;cin>>u>>v;
         G[u].push_back(v);
@@ -57,6 +65,5 @@ signed main() {
 
     dfs1(root,0);
     dfs2(root,root);
-
     return 0;
 }
