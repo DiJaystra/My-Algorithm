@@ -36,10 +36,12 @@ ll excrt() {
         //新方程:ans=m[i]*y+r[i]
         //用扩展欧几里得解方程:lm*x+m[i]*y=r[i]-tail,得最小非负数解x0
         ll a=lm,b=m[i],c=r[i]-tail;
-        //可以让a,c都对b取模，不影响x的最小非负整数解，但影响y的最小非负整数解
+        //只需要求 x。由 a*x ≡ c (mod b)，可先将 a、c 对 b 取模
+        //这不会改变 x 的解，但取模后方程中的 y 不再是原方程对应的 y
         ll g=__gcd(a,b);
         if(c%g != 0) return -1;
         auto [x0,y0]=exgcd(a,b);
+        //还原为原方程特解，对b/g取模是为了得到最小非负解
         x0=multiple(x0,c/g,b/g);
         //升级之后ans=(lm*b/g)*x+(lm*x0+tail)
         ll nlcm=b/g*lm;
