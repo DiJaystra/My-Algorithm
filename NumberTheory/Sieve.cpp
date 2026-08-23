@@ -2,21 +2,24 @@
 using namespace std;
 using ll=long long;
 
-const ll MAXN=1e7;
-vector<ll> primes;
+const int MAXN=1e7;
 
+vector<int> primes; //质数数组
+
+//欧拉筛法求质数
 void sieve() {
     vector<bool> isPrime(MAXN+1,true);
     isPrime[0]=false;
     isPrime[1]=false;
-    for(ll i=2;i<=MAXN;i++) {
+    for(int i=2;i<=MAXN;i++) {
         if(isPrime[i]) {
             primes.emplace_back(i);
         }
-        for(ll p : primes) {
-            ll n=i*p;
-            if(n>MAXN) break;
-            isPrime[n]=false;
+        for(int p : primes) {
+            ll num=(ll)i*p;
+            if(num>MAXN) break;
+            isPrime[num]=false;
+            //关键优化，保证所有合数只被最小质因子剔除
             if(i % p == 0) {
                 break;
             }
