@@ -80,12 +80,13 @@ void add(int x,int fa,int s,int num) {
         if(fa==0) head=init(num);
         else if(s==1) lch[fa]=init(num);
         else rch[fa]=init(num);
+        return;
     }
-    else {
-        if(key[x]==num) same[x]++;
-        else if(key[x] > num) add(lch[x],x,1,num);
-        else add(rch[x],x,2,num);
-    }
+
+    if(key[x]==num) same[x]++;
+    else if(key[x] > num) add(lch[x],x,1,num);
+    else add(rch[x],x,2,num);
+    
     up(x);
     if(!balance(x)) {
         top=x;
