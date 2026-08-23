@@ -1,14 +1,16 @@
 #include <bits/stdc++.h>
 using namespace std;
 using ll=long long;
-using ull=unsigned long long;
-using ld=long double;
-using lll=__int128;
+
+const int MAXN=2e5+5;
 
 int n;
 
-vector<int> a,b; //a为需排序数组，b为辅助数组（记得assign）
+//a为需排序数组，b为辅助数组
+int a[MAXN],b[MAXN];
+
 ll inv; //逆序对计数（记得初始化为0）
+
 //归并排序同时计算逆序对，O(nlogn)
 void mergeSort(int l,int r) {
     if(l>=r) return;
@@ -32,14 +34,11 @@ void mergeSort(int l,int r) {
 
 signed main() {
     ios::sync_with_stdio(false);cin.tie(0);
-
     cin>>n;
-    a.assign(n,0),b.assign(n,0);
-    for(int i=0;i<n;i++) cin>>a[i];
+    for(int i=1;i<=n;i++) cin>>a[i];
 
     inv=0;
-    mergeSort(0,n-1);
+    mergeSort(1,n);
     cout<<inv<<'\n';
-
     return 0;
 }
