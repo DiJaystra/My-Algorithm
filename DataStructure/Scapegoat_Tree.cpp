@@ -4,18 +4,18 @@ using namespace std;
 using ll=long long;
 
 const double ALPHA=0.7; //平衡因子，最好设成0.7
-int MAXN=1e5+5; //空间最大使用量
+const int MAXN=1e5+5; //空间最大使用量
 
 int head=0; //整棵树的头结点编号
 int cnt=0; //空间使用计数
-vector<int> key(MAXN); //节点的键值
-vector<int> same(MAXN); //节点重复加入的次数
-vector<int> lch(MAXN); //节点的左孩子
-vector<int> rch(MAXN); //节点的右孩子
-vector<int> diff(MAXN); //节点对应的子树（包括自己）有多少个节点
-vector<int> siz(MAXN); //节点对应的子树（包括自己）有多少个数字
+int key[MAXN]; //节点的键值
+int same[MAXN]; //节点重复加入的次数
+int lch[MAXN]; //节点的左孩子
+int rch[MAXN]; //节点的右孩子
+int diff[MAXN]; //节点对应的子树（包括自己）有多少个节点
+int siz[MAXN]; //节点对应的子树（包括自己）有多少个数字
 
-vector<int> collect(MAXN); //中序遍历收集的节点
+int collect[MAXN]; //中序遍历收集的节点
 int ci; //中序遍历收集的总节点数
 int top; //最上方的不平衡节点
 int father; //top的父亲（top为head时则为0）
@@ -170,7 +170,7 @@ signed main() {
         if(op==1) add(x);
         else if(op==2) erase(x);
         else if(op==3) cout<<ranking(x)<<'\n';
-        else if(op==4) cout<<index(head,x)<<'\n';
+        else if(op==4) cout<<index(x)<<'\n';
         else if(op==5) cout<<pre(x)<<'\n';
         else cout<<post(x)<<'\n';
     }
