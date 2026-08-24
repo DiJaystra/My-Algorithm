@@ -3,16 +3,19 @@
 using namespace std;
 using ll=long long;
 
-const double ALPHA=0.7; //平衡因子，最好设成0.7
+//平衡因子，通常设成0.7
+//越小重构越频繁，树高越矮
+//越大重构越少，树高越高
+const double ALPHA=0.7;
 const int MAXN=1e5+5; //空间最大使用量
 
 int head=0; //整棵树的头结点编号
 int cnt=0; //空间使用计数
 int key[MAXN]; //节点的键值
-int same[MAXN]; //节点重复加入的次数
+int same[MAXN]; //节点键值当前的出现次数
 int lch[MAXN]; //节点的左孩子
 int rch[MAXN]; //节点的右孩子
-int diff[MAXN]; //节点对应的子树（包括自己）有多少个节点
+int diff[MAXN]; //节点对应的子树（包括自己）有多少个有效节点
 int siz[MAXN]; //节点对应的子树（包括自己）有多少个数字
 
 int collect[MAXN]; //中序遍历收集的节点
@@ -58,7 +61,7 @@ void check() {
     if(top==0) return; //无不平衡节点，不用重建
     ci=0;
     inorder(top);
-    if(ci==0) return; //不平衡节点的子树，所有节点都被erase
+
     if(father==0) { //top==head
         head=rebuild(1,ci);
     }
@@ -68,9 +71,12 @@ void check() {
     else if(side==2) {
         rch[father]=rebuild(1,ci);
     }
+    //重构只移除siz和diff贡献均为0的墓碑
+    //因此father以上的汇总信息不变，无需重新up
 }
 //判断子树是否平衡
 bool balance(int x) {
+    //使用diff是因为重复值不产生节点
     return max(diff[lch[x]],diff[rch[x]]) <= ALPHA*diff[x];
 }
 //加入数字num
@@ -148,6 +154,7 @@ void erase(int x,int fa,int s,int num) {
 }
 //删除方法的接口
 void erase(int num) {
+    //先判断num这个数还有，再删除
     if(smaller(head,num)!=smaller(head,num+1)) {
         top=father=side=0;
         erase(head,0,0,num);
