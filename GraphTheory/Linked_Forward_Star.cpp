@@ -9,9 +9,9 @@ const int MAXM=2e5+5;
 
 int n,m; //点数，边数
 //点的头边，边的下一条边，边的终点
-int head[MAXN],nxt[MAXM*2],to[MAXM*2];
+int head[MAXN],nxt[MAXM<<1],to[MAXM<<1];
 //边的权重
-ll weight[MAXM*2];
+ll weight[MAXM<<1];
 int cntg=1; //边的编号从2开始
 
 //链式前向星加边操作
