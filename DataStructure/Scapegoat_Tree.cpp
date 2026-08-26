@@ -7,7 +7,10 @@ using ll=long long;
 //越小重构越频繁，树高越矮
 //越大重构越少，树高越高
 const double ALPHA=0.7;
-const int MAXN=1e5+5; //空间最大使用量
+//空间最大使用量
+const int MAXN=1e5+5;
+
+int q; //查询数量
 
 int head=0; //整棵树的头结点编号
 int cnt=0; //空间使用计数
@@ -172,14 +175,20 @@ void clear() {
 
 signed main() {
     ios::sync_with_stdio(false);cin.tie(0);
-    int q;cin>>q;
+    cin>>q;
     while(q--) {
         int op,x;cin>>op>>x;
+        //添加x这个键值
         if(op==1) add(x);
+        //删除x键值一个词频
         else if(op==2) erase(x);
+        //查询值x的排名
         else if(op==3) cout<<ranking(x)<<'\n';
+        //查询排名第x的数是多少
         else if(op==4) cout<<index(x)<<'\n';
+        //查询x这个数的前驱是多少
         else if(op==5) cout<<pre(x)<<'\n';
+        //查询x这个数的后继是多少
         else cout<<post(x)<<'\n';
     }
     return 0;
