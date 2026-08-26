@@ -72,8 +72,8 @@ int update(int id,int l,int r,int idx,ll val) {
     //非叶节点
     int mid=(l+r)>>1;
     //去往要修改的节点
-    if(idx<=mid) lch[h]=update(lch[id],l,mid,idx,val);
-    else rch[h]=update(rch[id],mid+1,r,idx,val);
+    if(idx<=mid) lch[h]=update(lch[h],l,mid,idx,val);
+    else rch[h]=update(rch[h],mid+1,r,idx,val);
     //汇总该节点信息
     pushup(h);
     //将头结点返回给上级节点连接
