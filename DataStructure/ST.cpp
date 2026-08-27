@@ -1,22 +1,31 @@
+//st表实现静态数组查询区间最大值操作
 #include <bits/stdc++.h>
 using namespace std;
 using ll=long long;
 
-int n,k; //数组长度，k=log2(n)
-vector<ll> a;
+const int MAXN=2e5+5; //最大数组长度
+const int LOG=20; //2^20 > 1e5
+
+int n; //数组长度
+int q; //查询次数
+ll a[MAXN]; //原数组
 
 //ST表实现模板
-vector<vector<ll>> st; //倍增表
+ll st[MAXN][LOG]; //倍增表
+
 //初始化倍增表
 void build() {
-    st.assign(n,vector<ll>(k+1));
-    //st[i][j]:i位置开始，长度为2^j的区间的最大值
-    for(int i=0;i<n;i++) {
+    //st[i][j]:i位置开始，长度为2^j的截断区间的最大值
+    for(int i=1;i<=n;i++) {
         st[i][0]=a[i];
     }
-    for(int j=1;j<=k;j++) {
-        for(int i=0;i+(1<<j)-1<n;i++) {
-            st[i][j]=max(st[i][j-1],st[i+(1<<(j-1))][j-1]);
+    for(int j=1;j<LOG;j++) {
+        for(int i=1;i<=n;i++) {
+            st[i][j]=st[i][j-1];
+            int jump=i+(1<<(j-1));
+            if(jump<=n) {
+                st[i][j]=max(st[i][j],st[jump][j-1]);
+            }
         }
     }
 }
@@ -30,15 +39,12 @@ ll query(int l,int r) {
 signed main() {
     ios::sync_with_stdio(false);cin.tie(0);
     cin>>n;
-    k=log2(n);
-    a.resize(n);
-    for(int i=0;i<n;i++) cin>>a[i];
+    for(int i=1;i<=n;i++) cin>>a[i];
     build(); //st表初始化
 
-    int q;cin>>q;
+    cin>>q;
     while(q--) {
         int l,r;cin>>l>>r;
-        l--,r--;
         cout<<query(l,r)<<'\n';
     }
     return 0;
