@@ -25,10 +25,13 @@ int times[MAXS];
 
 //链式前向星建fail指针反图，实际上是一棵树
 int head[MAXS],nxt[MAXS],to[MAXS];
-void addEdge(int id,int u,int v) {
-    nxt[id]=head[u];
-    to[id]=v;
-    head[u]=id;
+int cntg=1; //边的编号从2开始
+
+//链式前向星加边操作
+void addEdge(int u,int v) {
+    nxt[++cntg]=head[u];
+    to[cntg]=v;
+    head[u]=cntg;
 }
 
 //插入第id个目标串
@@ -103,7 +106,7 @@ signed main() {
 
     //基于fail指针建反图
     for(int i=1;i<=cnt;i++) {
-        addEdge(i,fail[i],i);
+        addEdge(fail[i],i);
     }
     //汇总答案
     gather(0);
