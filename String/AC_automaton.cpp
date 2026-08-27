@@ -1,5 +1,9 @@
 //AC自动机模板
 //快速计算n个模式串匹配文章的次数
+//为了兼容，模板还添加了报警机制（但没有用到）
+//即文章匹配到某节点是否意味着匹配了某个目标串
+//一般在有多个文章时，用某些方法可以批量判断警报
+//这里只有一个文章不需要用到（连具体匹配次数都能算出来了）
 #include <bits/stdc++.h>
 using namespace std;
 using ll=long long;
@@ -22,6 +26,8 @@ int cnt=0;
 int ending[MAXN];
 //times[i]:字典树节点i在文章中的出现次数
 int times[MAXS];
+//alert[i]:文章匹配到节点i是否报警
+bool alert[MAXS];
 
 //链式前向星建fail指针反图，实际上是一棵树
 int head[MAXS],nxt[MAXS],to[MAXS];
@@ -45,6 +51,7 @@ void insert(int id,string &word) {
         cur=trie[cur][path];
     }
     ending[id]=cur;
+    alert[cur]=true; //匹配完整的某目标串则报警
 }
 
 //设置好fail指针，同时设置直通表
@@ -62,6 +69,7 @@ void setFail() {
     //设置fail指针，同时设置直通表trie
     while(!q.empty()) {
         int u=q.front();q.pop();
+        alert[u]|=alert[fail[u]]; //命中标记前移
         for(int i=0;i<26;i++) {
             //如果当前路径的儿子不存在，那就更新直通表
             if(trie[u][i]==0) {
