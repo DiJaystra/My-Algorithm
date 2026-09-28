@@ -2,7 +2,7 @@
 using namespace std;
 using ll=long long;
 
-const int MAXN=2e5+5;
+const int MAXN=5e3+5;
 
 int n,m; //点数、边数
 //邻接表
@@ -21,9 +21,9 @@ int times[MAXN];
 //虚拟源点连接原图中所有实际点
 //复杂度O(nm)，只是常数时间有优化
 bool spfa(int s) {
-    dist[s]=0;
-    //将起点入队
     queue<int> que;
+    //将起点入队
+    dist[s]=0;
     que.push(s);
     inque[s]=true;
     times[s]=1;
