@@ -1,7 +1,10 @@
-#/bin/sh
+#!/bin/sh
 
-cd ./$1
-g++ -std=c++20 -O2 -Wall $1.cpp -o main
-./main < $2.in > out.txt
-cat out.txt
-diff -Z out.txt $2.ans
+code=$1
+problem=`echo $code | cut -c1`
+test=$2
+
+g++ -std=c++20 -O2 -Wall $code.cpp -o main
+./main < $problem/$test.in > $problem/out.txt
+cat $problem/out.txt
+diff -Z $problem/out.txt $problem/$test.ans
