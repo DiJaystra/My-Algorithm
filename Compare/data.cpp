@@ -2,8 +2,9 @@
 using namespace std;
 using ll=long long;
 
+mt19937_64 rnd(chrono::steady_clock::now().time_since_epoch().count());
+
 signed main() {
-    mt19937_64 rnd(time(0));
     ll a=rnd()%1000000;
     ll b=rnd()%1000000;
     cout<<a<<' '<<b<<'\n';
