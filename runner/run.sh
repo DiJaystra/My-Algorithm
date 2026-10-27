@@ -7,4 +7,4 @@ test=$2
 g++ -std=c++20 -O2 -Wall $code.cpp -o main
 ./main < $problem/$test.in > $problem/out.txt
 cat $problem/out.txt
-diff -Z $problem/out.txt $problem/$test.ans
+diff -b $problem/out.txt $problem/$test.ans
