@@ -124,6 +124,12 @@ signed main() {
         addEdge(v,u,0);
     }
 
+    //源点和汇点是同一个点时，流可无限大
+    if(s==t) {
+        cout<<"-1\n";
+        return 0;
+    }
+
     ll ans=maxFlow();
     cout<<ans<<'\n';
     return 0;
